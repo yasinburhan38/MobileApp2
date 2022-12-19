@@ -7,18 +7,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.inventoryapp.databinding.ActivityMainBinding;
-import com.example.inventoryapp.ui.login.LoginActivity;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.inventoryapp.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,12 +30,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         LoginButton = findViewById(R.id.LoginButton);
-        RegistreerButton = findViewById(R.id.RegistreerButton);
+        RegistreerButton = findViewById(R.id.AddButton);
 
         RegistreerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, RegistrerActivity.class);
+                startActivity(intent);
+                String welcome = "Welcome";
+                Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+
+            }
+        });
+        LoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,ProductActivity.class);
                 startActivity(intent);
                 String welcome = "Welcome";
                 Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
@@ -74,10 +80,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
-    }
+
 }
