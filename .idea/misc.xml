@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/drawable/edittext_background.xml" value="0.2505" />
+        <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/drawable/ic_baseline_login_24.xml" value="0.3535" />
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.16" />
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/layout/activity_add_product.xml" value="0.5" />
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/layout/activity_login.xml" value="0.3109375" />
@@ -24,6 +25,7 @@
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/layout/fragment_second.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/layout/fragment_second2.xml" value="0.41394927536231885" />
         <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/layout/fragment_second3.xml" value="0.20820668693009117" />
+        <entry key="..\:/Users/yasin/AndroidStudioProjects/InventoryApp/app/src/main/res/menu/menu_main.xml" value="0.5456410256410257" />
       </map>
     </option>
   </component>

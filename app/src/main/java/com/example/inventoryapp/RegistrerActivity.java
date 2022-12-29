@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,12 +22,14 @@ public class RegistrerActivity extends AppCompatActivity {
 
     Button RegistreerButton ;
     private EditText editTextNaamReg, editTextPasswordReg, editTextEmailReg;
+    private ProgressBar progressBar;
 
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrer);
+        progressBar = findViewById(R.id.progressBar);
         editTextEmailReg = findViewById(R.id.editTextEmailReg);
         editTextNaamReg = findViewById(R.id.editTextNaamReg);
         editTextPasswordReg = findViewById(R.id.editTextPasswordReg);
@@ -74,7 +77,7 @@ public class RegistrerActivity extends AppCompatActivity {
             editTextEmailReg.requestFocus();
             return;
         }
-
+        progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email,wachtwoord)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -89,15 +92,20 @@ public class RegistrerActivity extends AppCompatActivity {
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()){
                                                 Toast.makeText(RegistrerActivity.this, "Registratie is succesvol!", Toast.LENGTH_LONG).show();
+                                                progressBar.setVisibility(View.GONE);
+                                                Intent intent = new Intent(RegistrerActivity.this, MainActivity.class);
+                                                startActivity(intent);
                                             }
                                             else {
                                                 Toast.makeText(RegistrerActivity.this, "Registratie is niet gelukt!", Toast.LENGTH_LONG).show();
+                                                progressBar.setVisibility(View.GONE);
                                             }
                                         }
                                     });
 
                         }else {
                             Toast.makeText(RegistrerActivity.this, "Registratie is niet gelukt!", Toast.LENGTH_LONG).show();
+                            progressBar.setVisibility(View.GONE);
 
                         }
                     }
