@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/editTextEmailLogIn"
+        android:id="@+id/editTextNaamReg"
         android:layout_width="210dp"
         android:layout_height="36dp"
         android:layout_marginBottom="36dp"
@@ -22,7 +22,7 @@
         android:paddingRight="10dp"
         android:paddingBottom="6dp"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordReg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent" />
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="Email"
         android:textColor="#8F8E8E"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailLogIn"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNaamReg"
         app:layout_constraintStart_toStartOf="@+id/textView5" />
 
     <TextView
@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Wachtwoord"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordReg"
         app:layout_constraintStart_toStartOf="@+id/LoginButton" />
 
     <TextView
@@ -64,10 +64,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordReg" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/editTextPasswordReg"
         android:layout_width="210dp"
         android:layout_height="36dp"
         android:layout_marginBottom="212dp"
@@ -93,7 +93,7 @@
         android:textColor="#1C2120"
         android:textSize="34sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmailLogIn"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNaamReg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />

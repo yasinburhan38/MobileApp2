@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1018143478774",
+    "firebase_url": "https://inventoryapp-29432-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "inventoryapp-29432",
+    "storage_bucket": "inventoryapp-29432.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1018143478774:android:f12c58f856f8b4aebc6dd7",
+        "android_client_info": {
+          "package_name": "com.example.inventoryapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1018143478774-8k3r32enm2u6p1olqr89ghujtdpvodu4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY7y_vue7eNLIuUc_Zl6eTSv0XDPSQFl4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1018143478774-8k3r32enm2u6p1olqr89ghujtdpvodu4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
