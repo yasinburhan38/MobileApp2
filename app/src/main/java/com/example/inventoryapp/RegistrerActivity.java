@@ -9,6 +9,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,9 +21,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegistrerActivity extends AppCompatActivity {
 
-    Button RegistreerButton ;
+    private Button RegistreerButton;
     private EditText editTextNaamReg, editTextPasswordReg, editTextEmailReg;
     private ProgressBar progressBar;
+    private ImageButton backButton;
 
     private FirebaseAuth mAuth;
     @Override
@@ -34,7 +36,16 @@ public class RegistrerActivity extends AppCompatActivity {
         editTextNaamReg = findViewById(R.id.editTextNaamReg);
         editTextPasswordReg = findViewById(R.id.editTextPasswordReg);
         mAuth = FirebaseAuth.getInstance();
+        backButton = findViewById(R.id.imageButtonReg);
         RegistreerButton = findViewById(R.id.RegistrerButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegistrerActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         RegistreerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
