@@ -1,17 +1,24 @@
 package com.example.inventoryapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.proto.ProtoOutputStream;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +31,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.nio.BufferUnderflowException;
+import java.net.PortUnreachableException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -33,6 +42,8 @@ public class ProductActivity extends AppCompatActivity {
     private DatabaseReference ref;
     private ImageButton Logout;
     private ListView listView;
+    private SearchView searchView;
+    private List<Product> ProductList;
 
 
     private String UserId; // we gebruiken userId omdat iedereen die zich registreerd krijgt een UserId waarmee we kunnen vinden wie er heeft ingolgd
@@ -47,6 +58,11 @@ public class ProductActivity extends AppCompatActivity {
         final TextView welkomTextview = findViewById(R.id.textViewUserName);
         Logout = findViewById(R.id.imageButton);
         listView= findViewById(R.id.ListViewProduct);
+        searchView = findViewById(R.id.searchbar);
+        listView.setTextFilterEnabled(true);
+        ProductList = new ArrayList<>();
+
+
 
         ref.child(UserId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -97,10 +113,66 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
-        final ArrayList list = new ArrayList<>();
-        final ArrayList list1 = new ArrayList<>();
-        final ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.list_items, list1);
-        listView.setAdapter(adapter);
+        ArrayList list = new ArrayList<>();
+        ArrayList list1 = new ArrayList<>();
+        ArrayList listnaam = new ArrayList<>();
+        ArrayList listPrijs = new ArrayList<>();
+        ArrayList listaantal = new ArrayList<>();
+        ArrayList listProductcode = new ArrayList<>();
+
+
+
+        class MyAdapter extends ArrayAdapter<String>{
+            Context context;
+            ArrayList<String> naamP;
+            ArrayList<String> prijs;
+            ArrayList<String> aantal;
+            ArrayList<String> code;
+            private List<Product> productList;
+
+            public void setFilteredList(List<Product> filteredList){
+                this.productList = filteredList;
+                notifyDataSetChanged();
+            }
+
+
+            MyAdapter(Context c ,ArrayList<String> naam , ArrayList<String> Prijs,ArrayList<String> Aantal,ArrayList<String> Code){
+                super(c,R.layout.list_items, R.id.textViewProductList,naam);
+                this.context =c ;
+                this.naamP=naam;
+                this.prijs =Prijs;
+                this.aantal = Aantal;
+                this.code = Code;
+
+            }
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View row = layoutInflater.inflate(R.layout.list_items,parent,false);
+                TextView naam = row.findViewById(R.id.textViewProductList);
+                TextView Prijs = row.findViewById(R.id.textViewProductList2);
+                TextView Aantal = row.findViewById(R.id.textViewProductList4);
+                TextView Code = row.findViewById(R.id.textViewProductList3);
+
+                naam.setText("Naam: "+naamP.get(position));
+                Prijs.setText("Prijs: €"+prijs.get(position));
+                Aantal.setText("Aantal: "+aantal.get(position));
+                Code.setText("Productcode: "+code.get(position));
+
+
+
+
+                return row;
+            }
+        }
+
+        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.list_items, list1);
+
+        MyAdapter adapter1 = new MyAdapter(this, listnaam, listPrijs, listaantal,listProductcode);
+
+        listView.setAdapter(adapter1);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Producten")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -112,6 +184,11 @@ public class ProductActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Product product = dataSnapshot.getValue(Product.class);
                     list.add(product);
+                    ProductList.add(product);
+                    listnaam.add(product.naam);
+                    listPrijs.add(product.prijs);
+                    listaantal.add(product.aantal);
+                    listProductcode.add(product.productcode);
 
                     String productnaam = product.getNaam();
                     String productCode = product.getProductcode();
@@ -121,7 +198,7 @@ public class ProductActivity extends AppCompatActivity {
 
                     list1.add(txt);
                 }
-                adapter.notifyDataSetChanged();
+                adapter1.notifyDataSetChanged();
             }
 
             @Override
@@ -146,6 +223,22 @@ public class ProductActivity extends AppCompatActivity {
 
             }
         });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter1.getFilter().filter(newText);
+
+                return false;
+            }
+        });
+
 
 
 
@@ -160,4 +253,6 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

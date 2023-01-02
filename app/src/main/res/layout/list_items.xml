@@ -1,10 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="373dp"
+        android:layout_height="99dp"
+        android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/cardview_shadow_end_color"
+        app:cardCornerRadius="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cardView"
+            android:layout_width="367dp"
+            android:layout_height="76dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textViewProductList2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
 
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/textViewProductList"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        android:padding="10dp"
-        android:text="TextView" />
+            >
+
+
+            <TextView
+                android:id="@+id/textViewProductList"
+                android:layout_width="137dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="8dp"
+                android:padding="5dp"
+                android:text="TextView"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.004"
+                app:layout_constraintStart_toEndOf="@+id/imageViewProduct"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="145dp" />
+
+            <ImageView
+                android:id="@+id/imageViewProduct"
+                android:layout_width="86dp"
+                android:layout_height="62dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="70dp"
+                tools:layout_conversion_absoluteWidth="70dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/textViewProductList3"
+                android:layout_width="135dp"
+                android:layout_height="31dp"
+                android:layout_marginTop="8dp"
+                android:padding="5dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/textViewProductList"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="145dp" />
+
+            <TextView
+                android:id="@+id/textViewProductList4"
+                android:layout_width="135dp"
+                android:layout_height="31dp"
+                android:padding="5dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textViewProductList2"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductList3"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="145dp" />
+
+            <TextView
+                android:id="@+id/textViewProductList2"
+                android:layout_width="137dp"
+                android:layout_height="31dp"
+                android:padding="5dp"
+                android:text="TextView"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewProduct"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductList"
+                tools:layout_conversion_absoluteHeight="35dp"
+                tools:layout_conversion_absoluteWidth="145dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
