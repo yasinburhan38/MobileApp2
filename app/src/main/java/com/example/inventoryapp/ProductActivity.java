@@ -44,7 +44,7 @@ public class ProductActivity extends AppCompatActivity {
     private ListView listView;
     private SearchView searchView;
     private List<Product> ProductList;
-
+    private MyAdapter adapter1;
 
     private String UserId; // we gebruiken userId omdat iedereen die zich registreerd krijgt een UserId waarmee we kunnen vinden wie er heeft ingolgd
 
@@ -122,57 +122,7 @@ public class ProductActivity extends AppCompatActivity {
 
 
 
-        class MyAdapter extends ArrayAdapter<String>{
-            Context context;
-            ArrayList<String> naamP;
-            ArrayList<String> prijs;
-            ArrayList<String> aantal;
-            ArrayList<String> code;
-            private List<Product> productList;
-
-            public void setFilteredList(List<Product> filteredList){
-                this.productList = filteredList;
-                notifyDataSetChanged();
-            }
-
-
-            MyAdapter(Context c ,ArrayList<String> naam , ArrayList<String> Prijs,ArrayList<String> Aantal,ArrayList<String> Code){
-                super(c,R.layout.list_items, R.id.textViewProductList,naam);
-                this.context =c ;
-                this.naamP=naam;
-                this.prijs =Prijs;
-                this.aantal = Aantal;
-                this.code = Code;
-
-            }
-
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                LayoutInflater layoutInflater = (LayoutInflater)getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View row = layoutInflater.inflate(R.layout.list_items,parent,false);
-                TextView naam = row.findViewById(R.id.textViewProductList);
-                TextView Prijs = row.findViewById(R.id.textViewProductList2);
-                TextView Aantal = row.findViewById(R.id.textViewProductList4);
-                TextView Code = row.findViewById(R.id.textViewProductList3);
-
-                naam.setText("Naam: "+naamP.get(position));
-                Prijs.setText("Prijs: €"+prijs.get(position));
-                Aantal.setText("Aantal: "+aantal.get(position));
-                Code.setText("Productcode: "+code.get(position));
-
-
-
-
-                return row;
-            }
-        }
-
         ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.list_items, list1);
-
-        MyAdapter adapter1 = new MyAdapter(this, listnaam, listPrijs, listaantal,listProductcode);
-
-        listView.setAdapter(adapter1);
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Producten")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -206,7 +156,9 @@ public class ProductActivity extends AppCompatActivity {
 
             }
         });
+        adapter1 = new MyAdapter(this, listnaam, listPrijs, listaantal,listProductcode);
 
+        listView.setAdapter(adapter1);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -233,8 +185,8 @@ public class ProductActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter1.getFilter().filter(newText);
-
+                //adapter1.getFilter().filter(newText);
+                filterList(newText);
                 return false;
             }
         });
@@ -254,5 +206,77 @@ public class ProductActivity extends AppCompatActivity {
         });
     }
 
+    private void filterList(String text) {
+        List<Product> filteredList=new ArrayList<>();
+        ArrayList listnaam = new ArrayList<>();
+        ArrayList listPrijs = new ArrayList<>();
+        ArrayList listaantal = new ArrayList<>();
+        ArrayList listProductcode = new ArrayList<>();
+        for(Product item:ProductList){
+            if(item.getNaam().toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(item);
+                listnaam.add(item.getNaam());
+                listPrijs.add(item.getPrijs());
+                listaantal.add(item.getAantal());
+                listProductcode.add(item.getProductcode());
+            }
+        }
+        if(filteredList.isEmpty()){
+            Toast.makeText(this,"Search Not found",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            adapter1=new MyAdapter(this, listnaam, listPrijs, listaantal,listProductcode);
+
+            listView.setAdapter(adapter1);
+        }
+    }
+
 
 }
+class MyAdapter extends ArrayAdapter<String>{
+    Context context;
+    ArrayList<String> naamP;
+    ArrayList<String> prijs;
+    ArrayList<String> aantal;
+    ArrayList<String> code;
+    List<Product> productList;
+
+    public void setFilteredList(List<Product> filteredList){
+        this.productList = filteredList;
+        notifyDataSetChanged();
+    }
+
+
+    MyAdapter(Context c ,ArrayList<String> naam , ArrayList<String> Prijs,ArrayList<String> Aantal,ArrayList<String> Code){
+        super(c,R.layout.list_items, R.id.textViewProductList,naam);
+        this.context =c ;
+        this.naamP=naam;
+        this.prijs =Prijs;
+        this.aantal = Aantal;
+        this.code = Code;
+
+    }
+
+    @NonNull
+    @Override
+    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View row = layoutInflater.inflate(R.layout.list_items,parent,false);
+        TextView naam = row.findViewById(R.id.textViewProductList);
+        TextView Prijs = row.findViewById(R.id.textViewProductList2);
+        TextView Aantal = row.findViewById(R.id.textViewProductList4);
+        TextView Code = row.findViewById(R.id.textViewProductList3);
+
+        naam.setText("Naam: "+naamP.get(position));
+        Prijs.setText("Prijs: €"+prijs.get(position));
+        Aantal.setText("Aantal: "+aantal.get(position));
+        Code.setText("Productcode: "+code.get(position));
+
+
+
+
+        return row;
+    }
+}
+
+

@@ -1,12 +1,15 @@
 package com.example.inventoryapp;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +26,7 @@ public class ProductEditActivity extends AppCompatActivity {
 
     private TextView naam, code, prijs, aantal;
     private Button bewerken, verwijderen;
+    private ImageButton backButton;
 
 
 
@@ -37,6 +41,7 @@ public class ProductEditActivity extends AppCompatActivity {
         aantal = findViewById(R.id.editTextAantalEdit);
         bewerken = findViewById(R.id.buttonEditItem);
         verwijderen= findViewById(R.id.buttonDeleteItem);
+        backButton = findViewById(R.id.imageButtonProduct);
 
         Bundle bundle = getIntent().getExtras();
         Product product = (Product) bundle.getSerializable("PRODUCT");
@@ -46,27 +51,58 @@ public class ProductEditActivity extends AppCompatActivity {
         prijs.setText(product.getPrijs());
         aantal.setText(product.getAantal());
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProductEditActivity.this, ProductActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
         verwijderen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 String productnaam= naam.getText().toString();
+                final AlertDialog.Builder builder = new AlertDialog.Builder(ProductEditActivity.this);
+                builder.setMessage("Bent u zeker?");
+                builder.setCancelable(true);
+                builder.setNegativeButton("Ja", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                 FirebaseDatabase.getInstance().getReference().child("Producten")
-                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                         .child(productnaam).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()){
-                                    Toast.makeText(ProductEditActivity.this, "Product is succesvol verwijderd!",Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(ProductEditActivity.this, ProductActivity.class);
-                                    startActivity(intent);
-                                }
-                                else{
-                                    Toast.makeText(ProductEditActivity.this, "Er is iets mislukt!",Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                        FirebaseDatabase.getInstance().getReference().child("Producten")
+                                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .child(productnaam).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            Toast.makeText(ProductEditActivity.this, "Product is succesvol verwijderd!",Toast.LENGTH_LONG).show();
+
+                                        }
+                                        else{
+                                            Toast.makeText(ProductEditActivity.this, "Er is iets mislukt!",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
+                        Intent intent = new Intent(ProductEditActivity.this, ProductActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                builder.setPositiveButton("Nee", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        return;
+                    }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+
+
 
             }
         });
