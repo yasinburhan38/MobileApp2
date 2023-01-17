@@ -113,10 +113,19 @@ public class ProductEditActivity extends AppCompatActivity {
                 String productnaam= naam.getText().toString();
                 String aantalProduct= aantal.getText().toString();
                 String prijsProduct = prijs.getText().toString();
+                if(aantalProduct.isEmpty()){
+                    aantal.setError("Aantal is niet ingevuld!");
+                    aantal.requestFocus();
+                    return;
+                }
+                if(prijsProduct.isEmpty()){
+                    prijs.setError("Prijs is niet ingevuld!");
+                    prijs.requestFocus();
+                    return;
+                }
                 Map<String, Object> map=new HashMap<>();
                 map.put("aantal", aantalProduct);
                 map.put("prijs",prijsProduct);
-
                 FirebaseDatabase.getInstance().getReference().child("Producten")
                         .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                         .child(productnaam).updateChildren(map)
@@ -124,7 +133,7 @@ public class ProductEditActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(ProductEditActivity.this, "Gegevens zijn begewerkt!",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(ProductEditActivity.this, "Gegevens zijn bewerkt!",Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(ProductEditActivity.this, ProductActivity.class);
                                     startActivity(intent);
                                 }

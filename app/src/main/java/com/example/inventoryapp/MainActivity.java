@@ -49,12 +49,7 @@ public class MainActivity extends AppCompatActivity {
         editTextPassword= findViewById(R.id.editTextPasswordLogin);
         progressBar = findViewById(R.id.progressBar);
 
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         RegistreerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Login succesvol!", Toast.LENGTH_LONG).show();
 
                         }else{
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(MainActivity.this, "Login mislukt, email of wachtwoord is incorrect!", Toast.LENGTH_LONG).show();
                         }
 

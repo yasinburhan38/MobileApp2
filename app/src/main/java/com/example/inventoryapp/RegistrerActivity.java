@@ -50,9 +50,6 @@ public class RegistrerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                registreerUser();
-
-
-
             }
         });
 

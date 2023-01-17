@@ -50,6 +50,7 @@ public class AddProductActivity extends AppCompatActivity {
         productButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 productToevoegen();
             }
         });
@@ -83,9 +84,6 @@ public class AddProductActivity extends AppCompatActivity {
         }
         Product product = new Product(naam, code, aantal, prijs);
         progressBar.setVisibility(View.VISIBLE);
-
-
-
         FirebaseDatabase.getInstance().getReference("Producten")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .child(product.naam)

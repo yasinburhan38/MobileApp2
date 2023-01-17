@@ -45,7 +45,6 @@ public class ProductActivity extends AppCompatActivity {
     private SearchView searchView;
     private List<Product> ProductList;
     private MyAdapter adapter1;
-
     private String UserId; // we gebruiken userId omdat iedereen die zich registreerd krijgt een UserId waarmee we kunnen vinden wie er heeft ingolgd
 
     @Override
@@ -113,56 +112,43 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList list = new ArrayList<>();
-        ArrayList list1 = new ArrayList<>();
+
         ArrayList listnaam = new ArrayList<>();
         ArrayList listPrijs = new ArrayList<>();
         ArrayList listaantal = new ArrayList<>();
         ArrayList listProductcode = new ArrayList<>();
-
-
-
-        ArrayAdapter adapter = new ArrayAdapter<>(this, R.layout.list_items, list1);
-
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Producten")
                 .child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list1.clear();
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                     Product product = dataSnapshot.getValue(Product.class);
-                    list.add(product);
                     ProductList.add(product);
                     listnaam.add(product.naam);
                     listPrijs.add(product.prijs);
                     listaantal.add(product.aantal);
                     listProductcode.add(product.productcode);
-
-                    String productnaam = product.getNaam();
-                    String productCode = product.getProductcode();
-                    String productAantal = product.getAantal();
-                    String productPrijs = product.getPrijs();
-                    String txt = "Naam: "+productnaam + ", Code:"+ productCode +"\n"+ "Aantal: "+productAantal+", ProductPrijs: "+ productPrijs;
-
-                    list1.add(txt);
                 }
                 adapter1.notifyDataSetChanged();
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+
+
+
         adapter1 = new MyAdapter(this, listnaam, listPrijs, listaantal,listProductcode);
 
         listView.setAdapter(adapter1);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Product product = (Product) list.get(position);
+                Product product = (Product) ProductList.get(position);
                 String naam = product.getNaam();
 
                 Bundle bundle = new Bundle();
@@ -175,11 +161,10 @@ public class ProductActivity extends AppCompatActivity {
 
             }
         });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-
                 return false;
             }
 
@@ -213,7 +198,7 @@ public class ProductActivity extends AppCompatActivity {
         ArrayList listaantal = new ArrayList<>();
         ArrayList listProductcode = new ArrayList<>();
         for(Product item:ProductList){
-            if(item.getNaam().toLowerCase().contains(text.toLowerCase())){
+            if(item.getNaam().toLowerCase().contains(text.toLowerCase()) || item.getProductcode().toLowerCase().contains(text.toLowerCase())){
                 filteredList.add(item);
                 listnaam.add(item.getNaam());
                 listPrijs.add(item.getPrijs());
@@ -222,7 +207,7 @@ public class ProductActivity extends AppCompatActivity {
             }
         }
         if(filteredList.isEmpty()){
-            Toast.makeText(this,"Search Not found",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Zoekterm niet gevonden!",Toast.LENGTH_SHORT).show();
         }
         else{
             adapter1=new MyAdapter(this, listnaam, listPrijs, listaantal,listProductcode);
@@ -239,24 +224,15 @@ class MyAdapter extends ArrayAdapter<String>{
     ArrayList<String> prijs;
     ArrayList<String> aantal;
     ArrayList<String> code;
-    List<Product> productList;
 
-    public void setFilteredList(List<Product> filteredList){
-        this.productList = filteredList;
-        notifyDataSetChanged();
-    }
-
-
-    MyAdapter(Context c ,ArrayList<String> naam , ArrayList<String> Prijs,ArrayList<String> Aantal,ArrayList<String> Code){
-        super(c,R.layout.list_items, R.id.textViewProductList,naam);
-        this.context =c ;
-        this.naamP=naam;
-        this.prijs =Prijs;
+    MyAdapter(Context c , ArrayList<String> naam, ArrayList<String> Prijs,ArrayList<String> Aantal,ArrayList<String> Code){
+        super(c,R.layout.list_items,naam);
+        this.context =c;
+        this.naamP = naam;
+        this.prijs = Prijs;
         this.aantal = Aantal;
         this.code = Code;
-
     }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -266,15 +242,10 @@ class MyAdapter extends ArrayAdapter<String>{
         TextView Prijs = row.findViewById(R.id.textViewProductList2);
         TextView Aantal = row.findViewById(R.id.textViewProductList4);
         TextView Code = row.findViewById(R.id.textViewProductList3);
-
         naam.setText("Naam: "+naamP.get(position));
         Prijs.setText("Prijs: €"+prijs.get(position));
         Aantal.setText("Aantal: "+aantal.get(position));
         Code.setText("Productcode: "+code.get(position));
-
-
-
-
         return row;
     }
 }
